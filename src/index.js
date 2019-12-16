@@ -11,8 +11,10 @@ const bodyParserMiddleWare = bodyParser.json();
 app.use(bodyParserMiddleWare);
 
 const userRouter = require("./user/router");
+const authRouter = require("./auth/router");
 
 app.use(userRouter);
+app.use(authRouter);
 
 app.get("/", (req, res) => res.send("Welcome to our gameserver"));
 
