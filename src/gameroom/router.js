@@ -1,8 +1,38 @@
 const { Router } = require("express");
 const Gameroom = require("./model");
+const User = require("../user/model");
 
 function factory(stream) {
   const router = new Router();
+
+  router.put("/join", async (req, res, next) => {
+    try {
+      const user = await User.update(
+        {
+          gameroomId: req.body.gameroomId
+        },
+        {
+          where: {
+            id: req.body.userId
+          }
+        }
+      );
+
+      const everything = await Gameroom.findAll({ include: [User] });
+
+      const action = {
+        type: "ALL_GAMEROOMS",
+        payload: everything
+      };
+
+      const string = JSON.stringify(action);
+
+      stream.send(string);
+      res.send(user);
+    } catch (error) {
+      error(next);
+    }
+  });
 
   router.post("/gameroom", async (req, res, next) => {
     try {
