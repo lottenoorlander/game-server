@@ -14,7 +14,7 @@ function factory(stream) {
         },
         {
           where: {
-            id: req.user.userId //which user to update
+            id: req.user.id //which user to update
           }
         }
       );
