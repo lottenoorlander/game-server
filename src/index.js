@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const sse = require("json-sse");
 const gameroom = require("./gameroom/model");
+const User = require("./user/model");
 const stream = new sse();
 const port = process.env.PORT || 4000;
 
@@ -32,7 +33,7 @@ app.get("/", (req, res) => {
 //connect to the stream
 app.get("/stream", async (req, res, next) => {
   try {
-    const gamerooms = await gameroom.findAll();
+    const gamerooms = await gameroom.findAll({ include: [User] });
     const action = {
       type: "ALL_GAMEROOMS",
       payload: gamerooms
