@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
 app.get("/stream", async (req, res, next) => {
   try {
     const gamerooms = await gameroom.findAll({ include: [User] });
+
     const action = {
       type: "ALL_GAMEROOMS",
       payload: gamerooms
