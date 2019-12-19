@@ -1,19 +1,20 @@
 const { Router } = require("express");
 const Gameroom = require("./model");
 const User = require("../user/model");
+const auth = require("../auth/middleware");
 
 function factory(stream) {
   const router = new Router();
 
-  router.put("/join", async (req, res, next) => {
+  router.put("/join", auth, async (req, res, next) => {
     try {
       const user = await User.update(
         {
-          gameroomId: req.body.gameroomId
+          gameroomId: req.body.gameroomId //how we want to update
         },
         {
           where: {
-            id: req.body.userId
+            id: req.user.id //which user to update
           }
         }
       );
