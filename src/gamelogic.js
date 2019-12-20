@@ -9,8 +9,8 @@ and set user.move to turn
 //before call movement decide by priority wich user moves first 
 if (user1.ready && user2.ready) {
     check user1.turn[priority] > user2.turn[priority]
-    if > 1 => movement(user1, user1.turn) .then movement(user2, user2.turn) /* check if anyone won? == if won set phase to player 1 won or player 2 won*/.then send gameroom .then set ready to false and turn to null .then set phase of gameroom to execute turn or deal card? //DOES EXECUTE TURN MAKE SENSE? MAYBE INSTEAD DO DEAL CARD AND FRONTEND DEALS WITH DISPLAY MOVES BEFORE DEAL CARD!
-    else movement(user2, user2.turn) .then movement(user1, user1.turn)/* check if anyone won? == if won set phase to player 1 won or player 2 won*/ .then send gameroom .then set ready to false and turn to null .then set phase of gameroom to execute turn or deal card?
+    if > 1 => movement(user1, user1.turn) .then movement(user2, user2.turn) /* check if anyone won? OR LOST?! == if won set phase to player 1 won or player 2 won*/.then send gameroom .then set ready to false and turn to null .then set phase of gameroom to execute turn or deal card? //DOES EXECUTE TURN MAKE SENSE? MAYBE INSTEAD DO DEAL CARD AND FRONTEND DEALS WITH DISPLAY MOVES BEFORE DEAL CARD!
+    else movement(user2, user2.turn) .then movement(user1, user1.turn)/* check if anyone won? OR LOST?! == if won set phase to player 1 won or player 2 won*/ .then send gameroom .then set ready to false and turn to null .then set phase of gameroom to execute turn or deal card?
 
 //movement will receive player and turn
 function movement(user, turn){
@@ -23,9 +23,8 @@ function movement(user, turn){
         if(turn.movement === up){ //position is stored as [x, y] so x is the array and y is the position in that array
          update user.position to user.position[0] - 1
         }
-        if(turn.movement === down){ //position is stored as [x, y] so x is the array and y is the position in that array
-         update user.position to user.position[0] + 1
-        } else if (turn.movement === left){
+        if(turn.movement === down){ //position is stored as [x, y] so x is the array and y is the position in that array          update user.position to user.position[0] + 1
+        } else if (turn.movement === left){ //for each of these check tile for conveyor if so add one extra
             update user.position to user.position[1] - 1
         } else if (turn.movement === right){
             update user.position to user.position[1] + 1
@@ -46,7 +45,10 @@ function movement(user, turn){
         user.health - 1 && user.position = user.startposition
     } else if(board[user.position[0]][user.position[1]] === flag){ //what does flag do?
         user.flags + 1 
-    } else if(board[user.position[0]][user.position[1]] === conveyor){ //what does conveyor do?
+    } 
+    
+    //check conveyor needs to be moved to movement
+    else if(board[user.position[0]][user.position[1]] === conveyor){ //what does conveyor do?
         if(conveyor right){
             move one more right //see above movement
         } else if(conveyor etc) {
@@ -58,5 +60,23 @@ function movement(user, turn){
         
 }
 
+//gets the user via auth 
+PUT '/start', auth, (req, res, next) => {
+set user.ready to true 
+if (user1.ready && user2.ready) {
+    set gameroom.phase to (choose)turn
+    { where gameroomId === user1.gameroomId }
+}  
+send back gamerooms
+}
 //deal card should be frontend, right? You only send the card info to the backend.
 
+//FRONTEND [every post/put req to backend comes with jwt]
+//1. ready button needs change game phase to choose turn via /start
+//1a. deal 4 random cards with random priority numbers
+//1b. cards need to be clickable [also change to colored outline on click?]
+//2. on click needs to supply Array that holds [priority and turn and user] to /turn
+//3. update stats and gameboard? //I DON'T KNOW WHAT TO DO ABOUT DISPLAYING EACH PART OF THE TURN maybe skip for now
+//4. needs to first display moves when gameroom.phase is deal cards and then deal the actual cards
+//4a. repeat from 1a as long as there's no winner
+//5. if winner or loser display the end and winner/loser depending on player
