@@ -4,7 +4,7 @@ const User = require("../user/model");
 
 const Gameroom = db.define("gameroom", {
   name: Sequelize.STRING,
-  phase: { type: Sequelize.STRING, defaultValue: "WAITING" }
+  phase: { type: Sequelize.STRING, defaultValue: "WAITING_TO_START" }
 });
 
 User.belongsTo(Gameroom);

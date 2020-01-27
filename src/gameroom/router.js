@@ -50,7 +50,7 @@ const auth = require("../auth/middleware");
 //     })
 
 //   const dealStartPhase = await Gameroom.update(
-//     { phase: "startTurn" },
+//     { phase: "START_TURN" },
 //     {
 //       where: {
 //         id: user1.gameroomId
@@ -135,11 +135,11 @@ function factory(stream) {
     try {
       const user = await User.update(
         {
-          gameroomId: req.body.gameroomId //how we want to update
+          gameroomId: req.body.gameroomId
         },
         {
           where: {
-            id: req.user.id //which user to update
+            id: req.user.id
           }
         }
       );
@@ -185,11 +185,11 @@ function factory(stream) {
 
       const userReady = await User.update(
         {
-          ready: true //how we want to update
+          ready: true
         },
         {
           where: {
-            id: user.id //which user to update
+            id: user.id
           }
         }
       );
@@ -204,23 +204,23 @@ function factory(stream) {
       if (ready) {
         const gameroomPhaseStart = await Gameroom.update(
           {
-            phase: "startTurn" //how we want to update
+            phase: "START_TURN"
           },
           {
             where: {
-              id: user.gameroomId //which user to update
+              id: user.gameroomId
             }
           }
         );
 
         const player2startpos = await User.update(
           {
-            startposition: [1, 3], //how we want to update
+            startposition: [1, 3],
             ready: false
           },
           {
             where: {
-              id: user.id //which user to update
+              id: user.id
             }
           }
         );
@@ -231,7 +231,7 @@ function factory(stream) {
           },
           {
             where: {
-              id: users[1].id //which user to update
+              id: gameroom.users[1].id //which user to update
             }
           }
         );
@@ -239,11 +239,11 @@ function factory(stream) {
         console.log("this should run");
         const player1startpos = await User.update(
           {
-            startposition: [1, 1] //how we want to update
+            startposition: [1, 1]
           },
           {
             where: {
-              id: user.id //which user to update
+              id: user.id
             }
           }
         );
