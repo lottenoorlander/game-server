@@ -200,7 +200,7 @@ function factory(stream) {
 
       const { users } = gameroom;
 
-      const ready = users.every(user => user.ready);
+      const ready = users.length === 2 && users.every(user => user.ready);
       if (ready) {
         const gameroomPhaseStart = await Gameroom.update(
           {
@@ -224,19 +224,17 @@ function factory(stream) {
             }
           }
         );
-        ///SOMEHOW UPDATE OTHER USER.ready to FALSE again DOES NOT WORK
         const resetReady = await User.update(
           {
-            ready: false //how we want to update
+            ready: false
           },
           {
             where: {
-              id: gameroom.users[1].id //which user to update
+              id: gameroom.users[1].id
             }
           }
         );
       } else {
-        console.log("this should run");
         const player1startpos = await User.update(
           {
             startposition: [1, 1]
