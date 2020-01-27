@@ -4,30 +4,33 @@
 //when you pick a card frontend should send Array that holds [priority and turn and user]
 PUT '/turn', auth, (req, res, next) => 
 set user.ready to true 
-and set user.move to turn
+and set user.move to turn   ///DONE
 
 //before call movement decide by priority wich user moves first 
 if (user1.ready && user2.ready) {
     check user1.turn[priority] > user2.turn[priority]
     if > 1 => movement(user1, user1.turn) .then movement(user2, user2.turn) /* check if anyone won? OR LOST?! == if won set phase to player 1 won or player 2 won*/.then send gameroom .then set ready to false and turn to null .then set phase of gameroom to execute turn or deal card? //DOES EXECUTE TURN MAKE SENSE? MAYBE INSTEAD DO DEAL CARD AND FRONTEND DEALS WITH DISPLAY MOVES BEFORE DEAL CARD!
     else movement(user2, user2.turn) .then movement(user1, user1.turn)/* check if anyone won? OR LOST?! == if won set phase to player 1 won or player 2 won*/ .then send gameroom .then set ready to false and turn to null .then set phase of gameroom to execute turn or deal card?
+//DONE
+
 
 //movement will receive player and turn
 function movement(user, turn){
     //what is movement and what do we do with that info
     if(turn.movement === orientation){
-        find User by user.id 
-        update user.orientation to turn.movement
+       
     } else {
-        find User by user.id
+        
         if(turn.movement === up){ //position is stored as [x, y] so x is the array and y is the position in that array
-         update user.position to user.position[0] - 1
+         update user.position to userY - 1
         }
-        if(turn.movement === down){ //position is stored as [x, y] so x is the array and y is the position in that array          update user.position to user.position[0] + 1
+        if(turn.movement === down){
+            userY + 1
+         //position is st=ed as [x, y] so x is the array and y is the position in that array          update user.position to user.position[0] + 1
         } else if (turn.movement === left){ //for each of these check tile for conveyor if so add one extra
-            update user.position to user.position[1] - 1
+            update user.position to userX - 1
         } else if (turn.movement === right){
-            update user.position to user.position[1] + 1
+            update user.position to userX + 1
         }
     //is the player still on the board?
         if(user.position[0] >= 16 || user.position[1] >= 12 ){
@@ -38,26 +41,6 @@ function movement(user, turn){
     if(user.position === otheruserpos){
         otheruser.health - 1 && otheruser.position = otheruser.startposition
     }}
-
-    //check if tile does anything
-    const board = [[pit],[floor],[flag1],[floor]],[[],[],[],[],[], etc]
-    if(board[user.position[0]][user.position[1]] === pit){ //what does pit do?
-        user.health - 1 && user.position = user.startposition
-    } else if(board[user.position[0]][user.position[1]] === flag){ //what does flag do?
-        user.flags + 1 
-    } 
-    
-    //check conveyor needs to be moved to movement
-    else if(board[user.position[0]][user.position[1]] === conveyor){ //what does conveyor do?
-        if(conveyor right){
-            move one more right //see above movement
-        } else if(conveyor etc) {
-            //etc for: up left down 
-        } /*QUESTION does our standard board have chained conveyor belts or conveyor belts that make you fall off the board or into a pit or into another player? because if so that would require a secondary place validation*/
-    } 
-    playerpositioncheck(see previous)//possible second check to see if player bumped into another player?
-        
-        
 }
 
 //gets the user via auth 
@@ -75,7 +58,7 @@ send back gamerooms
 //1. ready button needs change game phase to choose turn via /start
 //1a. deal 4 random cards with random priority numbers
 //1b. cards need to be clickable [also change to colored outline on click?]
-//2. on click needs to supply Array that holds [priority and turn and user] to /turn
+//2. on click needs to supply Array called "turn" that holds [priority and turn] to /turn
 //3. update stats and gameboard? //I DON'T KNOW WHAT TO DO ABOUT DISPLAYING EACH PART OF THE TURN maybe skip for now
 //4. needs to first display moves when gameroom.phase is deal cards and then deal the actual cards
 //4a. repeat from 1a as long as there's no winner

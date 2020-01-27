@@ -4,13 +4,15 @@ const db = require("../db");
 const User = db.define("user", {
   userName: { type: Sequelize.STRING, allowNull: false },
   password: { type: Sequelize.STRING, allowNull: false },
-  position: { type: Sequelize.Array },
+  position: { type: Sequelize.ARRAY(Sequelize.INTEGER) },
   orientation: { type: Sequelize.STRING },
-  lives: { type: Sequelize.STRING, defaultValue: 3 },
-  flags: { type: Sequelize.STRING },
+  lives: { type: Sequelize.INTEGER, defaultValue: 3 },
+  flags: { type: Sequelize.INTEGER, defaultValue: 0 },
   ready: { type: Sequelize.BOOLEAN, defaultValue: false },
-  move: { type: Sequelize.ARRAY },
-  startposition: { type: Sequelize.STRING }
+  turn: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER, Sequelize.STRING)
+  },
+  startposition: { type: Sequelize.ARRAY(Sequelize.INTEGER) }
 });
 
 module.exports = User;
