@@ -238,7 +238,7 @@ function factory(stream) {
       } else {
         const player1startpos = await User.update(
           {
-            startposition: [1, 1]
+            startposition: [1, 1],
             position: [1, 1]
           },
           {
