@@ -216,6 +216,7 @@ function factory(stream) {
         const player2startpos = await User.update(
           {
             startposition: [1, 3],
+            position: [1, 3],
             ready: false
           },
           {
@@ -238,6 +239,7 @@ function factory(stream) {
         const player1startpos = await User.update(
           {
             startposition: [1, 1]
+            position: [1, 1]
           },
           {
             where: {
