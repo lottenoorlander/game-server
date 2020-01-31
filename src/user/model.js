@@ -10,7 +10,7 @@ const User = db.define("user", {
   flags: { type: Sequelize.INTEGER, defaultValue: 0 },
   ready: { type: Sequelize.BOOLEAN, defaultValue: false },
   turn: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER, Sequelize.STRING)
+    type: Sequelize.ARRAY(Sequelize.STRING)
   },
   startposition: { type: Sequelize.ARRAY(Sequelize.INTEGER) }
 });
