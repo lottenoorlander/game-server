@@ -60,7 +60,7 @@ async function checkForColisionOrFlag(player, opponent) {
     ["tile", "flag", "tile"]
   ];
   const positionOnBoard =
-    gameboard[updatedPlayer.position[0][updatedPlayer.position[1]]];
+    gameboard[[updatedPlayer.position[0] - 1][updatedPlayer.position[1] - 1]];
 
   if (
     updatedPlayer.position[0] > 7 ||
