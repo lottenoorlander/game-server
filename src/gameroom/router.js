@@ -59,9 +59,6 @@ async function checkForColisionOrFlag(player, opponent) {
     ["tile", "pit", "tile"],
     ["tile", "flag", "tile"]
   ];
-  const positionOnBoard =
-    gameboard[[updatedPlayer.position[0] - 1][updatedPlayer.position[1] - 1]];
-
   if (
     updatedPlayer.position[0] > 7 ||
     updatedPlayer.position[0] <= 0 ||
@@ -78,41 +75,46 @@ async function checkForColisionOrFlag(player, opponent) {
         }
       }
     );
-  } else if (updatedPlayer.position === opponent.position) {
-    const updateOponentHealth = await User.update(
-      {
-        lives: oponent.lives - 1,
-        position: oponent.startposition
-      },
-      {
-        where: {
-          id: oponent.id
+  } else {
+    const playerPositionX = updatedPlayer.position[0];
+    const playerPositionY = updatedPlayer.position[1];
+    const positionOnBoard = gameboard[playerPositionX - 1][playerPositionY - 1];
+
+    if (updatedPlayer.position === opponent.position) {
+      const updateOponentHealth = await User.update(
+        {
+          lives: oponent.lives - 1,
+          position: oponent.startposition
+        },
+        {
+          where: {
+            id: oponent.id
+          }
         }
-      }
-    );
-  } else if (positionOnBoard === "flag") {
-    const updateWins = await User.update(
-      { flags: updatedPlayer.flags + 1 },
-      { where: { id: updatedPlayer.id } }
-    );
-  } else if (positionOnBoard === "pit") {
-    const updatePlayerHealth = await User.update(
-      {
-        lives: updatedPlayer.lives - 1,
-        position: updatedPlayer.startposition
-      },
-      {
-        where: {
-          id: updatedPlayer.id
+      );
+    } else if (positionOnBoard === "flag") {
+      const updateWins = await User.update(
+        { flags: updatedPlayer.flags + 1 },
+        { where: { id: updatedPlayer.id } }
+      );
+    } else if (positionOnBoard === "pit") {
+      const updatePlayerHealth = await User.update(
+        {
+          lives: updatedPlayer.lives - 1,
+          position: updatedPlayer.startposition
+        },
+        {
+          where: {
+            id: updatedPlayer.id
+          }
         }
-      }
-    );
+      );
+    }
   }
 }
 
 async function movement(user) {
   const move = user.turn[1];
-  console.log("user pos before movement", user.position);
   if (move === "oneAhead") {
     const updatePositionUp = await User.update(
       {
