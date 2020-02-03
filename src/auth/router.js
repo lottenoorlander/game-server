@@ -10,7 +10,6 @@ router.post(
   (req, res, next) => {
     const userName = req.body.userName;
     const password = req.body.password;
-    // console.log({ email, password });
     if (!userName || !password) {
       res.status(400).send({
         message: "Please supply a valid username and password"
