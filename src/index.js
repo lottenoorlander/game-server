@@ -24,13 +24,11 @@ app.use(userRouter);
 app.use(authRouter);
 app.use(gameroomRouter);
 
-// app.get("/", (req, res) => res.send("Welcome to our gameserver"));
 app.get("/", (req, res) => {
   stream.send("test");
   res.send("Welcome to our gameserver");
 });
 
-//connect to the stream
 app.get("/stream", async (req, res, next) => {
   try {
     const gamerooms = await gameroom.findAll({ include: [User] });

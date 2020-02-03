@@ -8,7 +8,6 @@ router.post("/user", (req, res, next) => {
     userName: req.body.userName,
     password: bcrypt.hashSync(req.body.password, 10)
   };
-  console.log(user);
 
   User.create(user)
     .then(user => res.send(user))
